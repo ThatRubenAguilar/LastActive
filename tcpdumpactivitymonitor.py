@@ -6,13 +6,20 @@ from contextlib import closing
 import logging
 
 class TcpDumpActivityMonitor():
-    def __init__(self, port="80"):
+    def __init__(self, port=None, net_interface=None):
         self.__port = port
+        self.__net_interface=net_interface
         self.__last_active_time = None
 
     async def start_monitoring_async(self):
         self.__last_active_time = time.time()
-        cmd = ("sudo", "tcpdump", "port", self.__port, "-t")
+        cmd = ["sudo", "tcpdump", "-t"]
+        if self.__net_interface is not None:
+            cmd.append("-i")
+            cmd.append(self.__net_interface)
+        if self.__port is not None:
+            cmd.append("port")
+            cmd.append(self.__port)
         tcpdump_proc = await asyncio.create_subprocess_exec(*cmd, stdout=sub.PIPE)
 
         try:

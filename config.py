@@ -8,7 +8,8 @@ class Config:
         self.__parser_file_path=file_path
         self.__config_refresh_time_threshold=config_refresh_time_sec
         self.__config_refresh_base_time=None
-        self.__tcpdump_port="80"
+        self.__tcpdump_port=None
+        self.__tcpdump_network_interface=None
 
         if file_path is not None:
             self.__config_refresh_base_time=time.perf_counter()
@@ -19,7 +20,8 @@ class Config:
         parser = self.__parser
         file_path = self.__parser_file_path
         parser.read(file_path)
-        self.__tcpdump_port=parser.get("TcpDump", "Port", fallback="80")
+        self.__tcpdump_port=parser.get("TcpDump", "Port", fallback=None)
+        self.__tcpdump_network_interface=parser.get("TcpDump", "NetworkInterface", fallback=None)
 
     def __check_for_config_refresh(self):
         if self.__config_refresh_time_threshold is not None and \
@@ -31,3 +33,8 @@ class Config:
     def tcpdump_port(self):
         self.__check_for_config_refresh()
         return self.__tcpdump_port
+
+
+    def tcpdump_network_interface(self):
+        self.__check_for_config_refresh()
+        return self.__tcpdump_network_interface
