@@ -15,7 +15,8 @@ last_active_monitor = TcpDumpActivityMonitor(port=config.tcpdump_port())
 @app.route('/last_active_utc', methods=['GET'])
 def get_last_active_utc():
     last_active_utc = time.gmtime(last_active_monitor.last_active_time())
-    rv = {"last_active_utc": last_active_utc}
+    formatted_utc = time.strftime('%a, %d %b %Y %H:%M:%S GMT', last_active_utc)
+    rv = {"last_active_utc": formatted_utc}
     return app.make_response((jsonify(rv), status.HTTP_200_OK))
 
 
