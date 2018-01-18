@@ -9,7 +9,7 @@ from contextlib import closing
 
 app = Flask(__name__)
 config = Config("lastactive.config")
-last_active_monitor = TcpDumpActivityMonitor(port=config.tcpdump_port())
+last_active_monitor = TcpDumpActivityMonitor(port=config.tcpdump_port(),net_interface=config.tcpdump_network_interface())
 
 
 @app.route('/last_active_utc', methods=['GET'])
