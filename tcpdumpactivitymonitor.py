@@ -53,6 +53,7 @@ class TcpDumpActivityMonitor():
     def start_monitoring(self):
         if self.__tcpdump_proc is not None:
             raise MonitoringInProgress("TcpDump monitoring is already in progress.")
+        self.__last_active_time = time.time()
         cmd = self.__build_tcpdump_command()
         self.__tcpdump_proc = sub.Popen(cmd, stdout=sub.PIPE)
         self.__thread = threading.Thread(target=self.__update_loop)
