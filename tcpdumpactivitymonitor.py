@@ -89,25 +89,6 @@ class MonitoringInProgress(Exception):
     def __init__(self, *args, **kwargs):
         Exception.__init__(self, *args, **kwargs)
 
-
-async def loop_call_async(dump):
-    while True:
-        print("what")
-        print(dump.last_active_time())
-        print(time.gmtime(dump.last_active_time()))
-        await asyncio.sleep(3)
-
-
-def loop_call(dump):
-    try:
-        while True:
-            print("what")
-            print(dump.last_active_time())
-            print(time.gmtime(dump.last_active_time()))
-            time.sleep(3)
-    except KeyboardInterrupt:
-        pass
-
 if __name__ == '__main__':
     tcpdump = TcpDumpActivityMonitor(port="443")
     # loop = asyncio.get_event_loop()
@@ -115,7 +96,4 @@ if __name__ == '__main__':
     #     asyncio.ensure_future(tcpdump.start_monitoring_async(), loop=loop)
     #     asyncio.ensure_future(loop_call_async(tcpdump), loop=loop)
     #     loop.run_forever()
-    tcpdump.start_monitoring()
-    loop_call(tcpdump)
-    tcpdump.stop_monitoring()
 

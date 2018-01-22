@@ -34,7 +34,6 @@ class Config:
         self.__check_for_config_refresh()
         return self.__tcpdump_port
 
-
     def tcpdump_network_interface(self):
         self.__check_for_config_refresh()
         return self.__tcpdump_network_interface
